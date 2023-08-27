@@ -31,6 +31,33 @@ const isTIME = (value: string): boolean => {
 
 
 /* Parsers */
+const parseBooleanTinyint1_o_NULL = (booleanFromRequest: any): boolean | null => {
+  if ((isTINYINT1(booleanFromRequest)) || (isBoolean(booleanFromRequest)) || (isNull(booleanFromRequest))) {
+    return booleanFromRequest;
+  }
+  else{
+    throw new Error('Incorrect or missing boolean value');
+  }
+};
+
+const parseNumber_o_NULL = (numberFromRequest: any): number | null => {
+  if ((isNumber(numberFromRequest)) || (isNull(numberFromRequest))) {
+    return numberFromRequest;
+  }
+  else{
+    throw new Error('Incorrect or missing number value');
+  }
+};
+
+const parseString_o_NULL= (stringFromRequest: any): string | null => {
+  if ((isString(stringFromRequest)) || (isNull(stringFromRequest))) {
+    return stringFromRequest;
+  }
+  else{
+    throw new Error('Incorrect or missing string value');
+  }
+};
+
 const parseBooleanTinyint1 = (booleanFromRequest: any): boolean => {
   if ((!isTINYINT1(booleanFromRequest)) || (!isBoolean(booleanFromRequest))) {
     throw new Error('Incorrect or missing boolean value');
@@ -39,7 +66,7 @@ const parseBooleanTinyint1 = (booleanFromRequest: any): boolean => {
 };
 
 const parseDate = (dateFromRequest: any): string => {
-  if ((!isString(dateFromRequest)) || (!isDate(dateFromRequest))) {
+  if ((isNull(dateFromRequest)) || (!isString(dateFromRequest)) || (!isDate(dateFromRequest))) {
     throw new Error('Incorrect or missing date value');
   }
   return dateFromRequest;
@@ -52,11 +79,18 @@ const parseNumber = (numberFromRequest: any): number => {
   return numberFromRequest;
 };
 
-const parseTIME = (TIMEFromRequest: any): number => {
-  if ((!isString(TIMEFromRequest)) || (!isTIME(TIMEFromRequest))) {
+const parseString= (stringFromRequest: any): string => {
+  if (!isString(stringFromRequest)) {
+    throw new Error('Incorrect or missing string value');
+  }
+  return stringFromRequest;
+};
+
+const parseTIME = (TimeFromRequest: any): number => {
+  if ((isNull(TimeFromRequest)) || (!isString(TimeFromRequest)) || (!isTIME(TimeFromRequest))) {
     throw new Error('Incorrect or missing Time value');
   }
-  return TIMEFromRequest;
+  return TimeFromRequest;
 };
 
 
