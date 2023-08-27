@@ -53,6 +53,9 @@ export interface Pedido {
   id_localcarta: number;
   nombre_cliente: string;
   fecha_pedido: Date;
+  direccion_cliente: string | null;
+  nro_mesa: number | null;
+  precio_total: number;
 };
 
 export interface Comida_Tamanio {
@@ -64,17 +67,11 @@ export interface Comida_Tamanio {
   oferta: boolean | null;
 };
 
-export interface Comida_Pedido {
-  id_comida_pedido: number;
-  id_comida: number;
+export interface Comida_Tamanio_Pedido {
+  id_comida_tamanio_pedido: number;
+  id_comida_tamanio: number;
   id_pedido: number;
   cantidad_unidades: number;
-};
-
-export interface TipoPlato_Tamanio {
-  id_tipoplato_tamanio: number;
-  id_tipoplato: number;
-  id_tamanio: number;
 };
 
 export interface Seccion_TipoPlato {
@@ -89,3 +86,43 @@ export interface LocalCarta_Seccion {
   id_seccion: number;
 };
 
+export interface Horario {
+  id_horario: number;
+  id_localcarta: number;
+  lunes_apertura: string;
+  lunes_cierre: string;
+  martes_apertura: string;
+  martes_cierre: string;
+  miercoles_apertura: string;
+  miercoles_cierre: string;
+  jueves_apertura: string;
+  jueves_cierre: string;
+  viernes_apertura: string;
+  viernes_cierre: string;
+  sabado_apertura: string;
+  sabado_cierre: string;
+  domingo_apertura: string;
+  domingo_cierre: string;
+};
+
+export interface TipoPago {
+  id_tipopago: number;
+  descripcion_tipopago: string;
+};
+
+export interface TipoEntrega {
+  id_tipoentrega: number;
+  descripcion_tipoentrega: string;
+};
+
+export interface LocalCarta_TipoPago {
+  id_localcarta_tipopago: number;
+  id_localcarta: number;
+  id_tipopago: number;
+};
+
+export interface LocalCarta_TipoEntrega {
+  id_localcarta_tipoentrega: number;
+  id_localcarta: number;
+  id_tipoentrega: number;
+};

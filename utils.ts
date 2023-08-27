@@ -25,6 +25,10 @@ const isNull = (value: any): boolean => {
   return value === null;
 };
 
+const isTIME = (value: string): boolean => {
+  return validador_TIME(value) //ej '18:00:00'
+};
+
 
 /* Parsers */
 const parseBooleanTinyint1 = (booleanFromRequest: any): boolean => {
@@ -48,9 +52,33 @@ const parseNumber = (numberFromRequest: any): number => {
   return numberFromRequest;
 };
 
+const parseTIME = (TIMEFromRequest: any): number => {
+  if ((!isString(TIMEFromRequest)) || (!isTIME(TIMEFromRequest))) {
+    throw new Error('Incorrect or missing Time value');
+  }
+  return TIMEFromRequest;
+};
+
 
 /* Funciones varias */
 // from Front-End -> Back-End -> BD
+const validador_TIME = (value: string): boolean => {
+  if (value.length === 8 
+      && typeof value.substring(0,1) === 'number' 
+      && typeof value.substring(3,4) === 'number' 
+      && typeof value.substring(6,7) === 'number' 
+      && value.charAt(2) === ':'
+      && value.charAt(5) === ':'){
+        const hora: number = parseInt(value.substring(0,1));
+        const minutos: number = parseInt(value.substring(3,4));
+        const segundos: number = parseInt(value.substring(6,7));
+        if (hora < 24 && minutos < 60 && segundos < 60){
+          return true;
+        }
+  }
+  return false;
+};
+
 const newTelefono = (object: any): Telefono => {
   const newTelefonito: Telefono = {
     id_telefono: parseNumber(object.id_telefono),
