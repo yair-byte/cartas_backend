@@ -1,7 +1,7 @@
-import { Telefono } from './types';
+import { TypesInterfaces, Usuario } from './types';
 
 /* Verficacion de Tipos */
-const isTINYINT1 = (value: number): boolean => {
+/*const isTINYINT1 = (value: number): boolean => {
   return value === 0 || value === 1;
 };
 
@@ -11,10 +11,6 @@ const isBoolean = (value: boolean): boolean => {
 
 const isDate = (value: string): boolean => {
   return Boolean(Date.parse(value));
-};
-
-const isString = (value: string): boolean => {
-  return typeof value === 'string';
 };
 
 const isNumber = (value: number): boolean => {
@@ -28,15 +24,18 @@ const isNull = (value: any): boolean => {
 const isTIME = (value: string): boolean => {
   return validador_TIME(value) //ej '18:00:00'
 };
-
+*/
+const isString = (value: string): boolean => {
+  return typeof value === 'string';
+};
 
 /* Parsers */
-const parseBooleanTinyint1_o_NULL = (booleanFromRequest: any): boolean | null => {
+/*const parseBooleanTinyint1_o_NULL = (booleanFromRequest: any): boolean | null => {
   if ((isTINYINT1(booleanFromRequest)) || (isBoolean(booleanFromRequest)) || (isNull(booleanFromRequest))) {
     return booleanFromRequest;
   }
   else{
-    throw new Error('Incorrect or missing boolean value');
+    throw new Error('Tipo incorrecto, se esperaba un boolean/tinyint(1) o nulo');
   }
 };
 
@@ -45,7 +44,7 @@ const parseNumber_o_NULL = (numberFromRequest: any): number | null => {
     return numberFromRequest;
   }
   else{
-    throw new Error('Incorrect or missing number value');
+    throw new Error('Tipo incorrecto, se esperaba un number o nulo');
   }
 };
 
@@ -54,49 +53,48 @@ const parseString_o_NULL= (stringFromRequest: any): string | null => {
     return stringFromRequest;
   }
   else{
-    throw new Error('Incorrect or missing string value');
+    throw new Error('Tipo incorrecto, se esperaba un string o nulo');
   }
 };
 
 const parseBooleanTinyint1 = (booleanFromRequest: any): boolean => {
   if ((!isTINYINT1(booleanFromRequest)) || (!isBoolean(booleanFromRequest))) {
-    throw new Error('Incorrect or missing boolean value');
+    throw new Error('Tipo incorrecto, se esperaba un boolean o tinyint(1)');
   }
   return booleanFromRequest;
 };
 
 const parseDate = (dateFromRequest: any): string => {
   if ((isNull(dateFromRequest)) || (!isString(dateFromRequest)) || (!isDate(dateFromRequest))) {
-    throw new Error('Incorrect or missing date value');
+    throw new Error('Tipo incorrecto, se esperaba un Date');
   }
   return dateFromRequest;
 };
 
 const parseNumber = (numberFromRequest: any): number => {
   if (!isNumber(numberFromRequest)) {
-    throw new Error('Incorrect or missing number value');
+    throw new Error('Tipo incorrecto, se esperaba un number');
   }
   return numberFromRequest;
 };
 
-const parseString= (stringFromRequest: any): string => {
+const parseTIME = (TimeFromRequest: any): number => {
+  if ((isNull(TimeFromRequest)) || (!isString(TimeFromRequest)) || (!isTIME(TimeFromRequest))) {
+    throw new Error('Tipo incorrecto, se esperaba un TIME');
+  }
+  return TimeFromRequest;
+};
+*/
+export const parseString= (stringFromRequest: any): string => {
   if (!isString(stringFromRequest)) {
-    throw new Error('Incorrect or missing string value');
+    throw new Error('Tipo incorrecto, se esperaba un string');
   }
   return stringFromRequest;
 };
 
-const parseTIME = (TimeFromRequest: any): number => {
-  if ((isNull(TimeFromRequest)) || (!isString(TimeFromRequest)) || (!isTIME(TimeFromRequest))) {
-    throw new Error('Incorrect or missing Time value');
-  }
-  return TimeFromRequest;
-};
-
-
 /* Funciones varias */
 // from Front-End -> Back-End -> BD
-const validador_TIME = (value: string): boolean => {
+/*const validador_TIME = (value: string): boolean => {
   if (value.length === 8 
       && typeof value.substring(0,1) === 'number' 
       && typeof value.substring(3,4) === 'number' 
@@ -112,13 +110,24 @@ const validador_TIME = (value: string): boolean => {
   }
   return false;
 };
-
-const newTelefono = (object: any): Telefono => {
-  const newTelefonito: Telefono = {
-    id_telefono: parseNumber(object.id_telefono),
-    nro_telefono: parseNumber(object.nro_telefono),
-    id_local: parseNumber(object.id_local),
-    es_principal: parseBooleanTinyint1(object.es_princiapl)
+*/
+export const crearNuevoUsuario = (object: any): Usuario => {
+  const newUsuario: Usuario = {
+    nombre_usuario: parseString(object.nombre_usuario),
+    contrasenia: parseString(object.contrasenia),
+    correo_electronico: parseString(object.correo_electronico),
+    role: parseString(object.role)
   };
-  return newTelefonito;
+  return newUsuario;
+};
+
+export const obtenerPropiedadesSeparadasPorComas = (obj: TypesInterfaces): string => {
+  const propiedades = Object.keys(obj);
+  return propiedades.join(', ');
+};
+
+export const obtenerDatosSeparadosPorComas = (obj: TypesInterfaces): string => {
+  const valores = Object.values(obj);
+  const stringValores = valores.map(valor => isString(valor) ? `'${valor}'` : `${valor}`).join(', ');
+  return stringValores;
 };

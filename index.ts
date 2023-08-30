@@ -1,10 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import routerUsers from './routers/users_routes';
+import config from './config';
 
 const app = express();
-const PORT = 3000;
-const BASE_URL = `http://localhost`;
 
 // Middlewares
 app.use(express.json());
@@ -17,8 +16,11 @@ app.get('/pingserver', (_req, res) => {
 });
 app.use('/api/usuarios', routerUsers);
 app.use('/api/usuarios/:id', routerUsers);
+app.use('/api/usuarios/login', routerUsers);
+app.use('/api/usuarios/nuevousuario', routerUsers);
+app.use('/api/usuarios/delete', routerUsers);
 
 //start server
-app.listen(PORT, () => {
-  console.log(`El servidor esta escuchando en ${BASE_URL}:${PORT} ...`);
+app.listen(config.PORT, () => {
+  console.log(`El servidor esta escuchando en ${config.BASE_URL}:${config.PORT} ...`);
 });

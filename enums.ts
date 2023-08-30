@@ -17,3 +17,8 @@ export enum NameTables {
   LocalCarta_TipoPago = 'LocalCarta_TipoPago',
   LocalCarta_TipoEntrega = 'LocalCarta_TipoEntrega'
 };
+
+export enum Permission {
+  UsuarioComun = 'user',
+  Administrador = 'admin'
+};
