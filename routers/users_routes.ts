@@ -14,7 +14,7 @@ const routerUsuario = express.Router();
 routerUsuario.use(express.json());  //convierte JSON a Object JS
 
 // Crear un usuario y almacenar su contraseña hasheada
-routerUsuario.post('/nuevousuario', async (req: Request, res: Response) => {
+routerUsuario.post('/nuevo', async (req: Request, res: Response) => {
   try {
     const passwordHash = await bcrypt.hash(req.body.contrasenia, 10);
     const nuevoUsuario: Usuario = crearNuevoUsuario({
@@ -24,10 +24,10 @@ routerUsuario.post('/nuevousuario', async (req: Request, res: Response) => {
       role: req.body.role
     });
     const registroInsertado: Usuario[] = await guardarNuevoRegistro<Usuario>(nuevoUsuario, NameTables.Usuario);
-    res.status(200).json(registroInsertado);
+    return res.status(200).json(registroInsertado);
   } catch (err) {
     const error: Error = err as Error;
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
@@ -57,19 +57,18 @@ routerUsuario.post('/login', async (req: Request, res: Response) => {
     }
   } catch (err) {
     const error: Error = err as Error;
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
-  return undefined;
 });
 
 /* Obtener todos los Usuarios */
 routerUsuario.get('/', async (_req: Request, res: Response) => {
   try {
     const usuarios: Usuario[] = await obtenerTablaCompleta<Usuario>(NameTables.Usuario);
-    res.status(200).json(usuarios);
+    return res.status(200).json(usuarios);
   } catch (err) {
     const error: Error = err as Error;
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
@@ -78,10 +77,10 @@ routerUsuario.get('/:id', async (req: Request, res: Response) => {
   try {
     const id: number = parseInt(req.params.id, 10);
     const usuario: Usuario[] = await obtenerRegistroPorID<Usuario>(id, NameTables.Usuario);
-    res.status(200).json(usuario);
+    return res.status(200).json(usuario);
   } catch (err) {
     const error: Error = err as Error;
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
@@ -97,10 +96,10 @@ routerUsuario.put('/:id', verificarPermisos(Permission.Administrador), async (re
       role: req.body.role
     });
     const usuarioActualizado: Usuario[] = await actualizarRegistroPorID<Usuario>(id, nuevoUsuario, NameTables.Usuario);
-    res.status(200).json(usuarioActualizado);
+    return res.status(200).json(usuarioActualizado);
   } catch (err) {
     const error: Error = err as Error;
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
@@ -109,10 +108,10 @@ routerUsuario.delete('/:id', verificarPermisos(Permission.Administrador), async 
   try {
     const id: number = parseInt(req.params.id, 10);
     const usuarioEliminado: Usuario[] = await borrarRegistroPorID<Usuario>(id, NameTables.Usuario);
-    res.status(200).json(usuarioEliminado);
+    return res.status(200).json(usuarioEliminado);
   } catch (err) {
     const error: Error = err as Error;
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
