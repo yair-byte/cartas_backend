@@ -85,7 +85,7 @@ const parseTIME = (TimeFromRequest: any): number => {
   return TimeFromRequest;
 };
 */
-export const parseString= (stringFromRequest: any): string => {
+export const parseString = (stringFromRequest: any): string => {
   if (!isString(stringFromRequest)) {
     throw new Error('Tipo incorrecto, se esperaba un string');
   }
@@ -130,4 +130,11 @@ export const obtenerDatosSeparadosPorComas = (obj: TypesInterfaces): string => {
   const valores = Object.values(obj);
   const stringValores = valores.map(valor => isString(valor) ? `'${valor}'` : `${valor}`).join(', ');
   return stringValores;
+};
+
+export const obtenerParKeyValorSeparadosPorComas = (obj: TypesInterfaces): string => {
+  const propiedades = Object.keys(obj);
+  const valores = Object.values(obj);
+  const stringParKeyValor = propiedades.map((key, indexKey) => isString(valores[indexKey]) ? `${key} = '${valores[indexKey]}'` : `${key} = ${valores[indexKey]}`).join(', ');
+  return stringParKeyValor;
 };

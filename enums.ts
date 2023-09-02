@@ -19,6 +19,6 @@ export enum NameTables {
 };
 
 export enum Permission {
-  UsuarioComun = 'user',
+  Usuario = 'user',
   Administrador = 'admin'
 };

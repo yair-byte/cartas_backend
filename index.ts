@@ -18,7 +18,6 @@ app.use('/api/usuarios', routerUsers);
 app.use('/api/usuarios/:id', routerUsers);
 app.use('/api/usuarios/login', routerUsers);
 app.use('/api/usuarios/nuevousuario', routerUsers);
-app.use('/api/usuarios/delete', routerUsers);
 
 //start server
 app.listen(config.PORT, () => {

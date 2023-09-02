@@ -1,20 +1,22 @@
-export type TypesInterfaces = Usuario 
-                            | Seccion 
-                            | LocalCarta 
-                            | Telefono 
-                            | TipoPlato 
-                            | Tamanio 
-                            | Comida 
-                            | Pedido 
-                            | Comida_Tamanio 
-                            | Comida_Tamanio_Pedido 
-                            | Seccion_TipoPlato 
-                            | LocalCarta_Seccion 
-                            | Horario 
-                            | TipoPago 
-                            | TipoEntrega 
-                            | LocalCarta_TipoPago 
-                            | LocalCarta_TipoEntrega;
+export type TypesInterfaces = Usuario
+  | Seccion
+  | LocalCarta
+  | Telefono
+  | TipoPlato
+  | Tamanio
+  | Comida
+  | Pedido
+  | Comida_Tamanio
+  | Comida_Tamanio_Pedido
+  | Seccion_TipoPlato
+  | LocalCarta_Seccion
+  | Horario
+  | TipoPago
+  | TipoEntrega
+  | LocalCarta_TipoPago
+  | LocalCarta_TipoEntrega;
+
+// IDs opcionales por estar definidos como Auto-incrementales en la BD!
 
 export interface Usuario {
   id_usuario?: number;
@@ -46,7 +48,7 @@ export interface LocalCarta {
 export interface Telefono {
   id_telefono?: number;
   nro_telefono: number;
-  id_local: number;
+  id_localcarta: number;
   es_principal: boolean;
 };
 

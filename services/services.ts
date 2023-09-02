@@ -1,7 +1,7 @@
 import { conectarBD } from '../database/database';
 import { NameTables, Permission } from '../enums';
 import { TypesInterfaces } from '../types';
-import { obtenerPropiedadesSeparadasPorComas, obtenerDatosSeparadosPorComas } from '../utils';
+import { obtenerPropiedadesSeparadasPorComas, obtenerDatosSeparadosPorComas, obtenerParKeyValorSeparadosPorComas } from '../utils';
 import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
@@ -37,10 +37,10 @@ export const verificarPermisos = (permisoRequerido: Permission) => {
   };
 };
 
-export const obtenerTablaCompleta = async <T extends TypesInterfaces>(param: NameTables): Promise<T[]> => {
+export const obtenerTablaCompleta = async <T extends TypesInterfaces>(tabla: NameTables): Promise<T[]> => {
   try {
     const conn = await conectarBD();
-    const querySQL = `SELECT * FROM ${param};`;
+    const querySQL = `SELECT * FROM ${tabla};`;
     const [rows] = await conn.query(querySQL);
     const result = rows as T[];
     return result;
@@ -49,11 +49,30 @@ export const obtenerTablaCompleta = async <T extends TypesInterfaces>(param: Nam
   }
 };
 
-export const obtenerRegistroPorID = async <T extends TypesInterfaces>(id: number, param: NameTables): Promise<T[]> => {
+export const obtenerRegistroPorID = async <T extends TypesInterfaces>(id: number, tabla: NameTables): Promise<T[]> => {
   try {
-    const nameTableLC: string = param.toLowerCase();
+    const nameTableLC: string = tabla.toLowerCase();
     const conn = await conectarBD();
-    const querySQL = `SELECT * FROM ${param} WHERE id_${nameTableLC} = ${id};`;
+    const idEscapado = conn.escape(id);
+    const querySQL = `SELECT * FROM ${tabla} WHERE id_${nameTableLC} = ${idEscapado};`;
+    const [rows] = await conn.query(querySQL);
+    if (Array.isArray(rows) && rows.length === 1) {
+      const result = rows as T[];
+      return result;
+    } else {
+      throw new Error('Error mas de un registro con el mismo ID');
+    }
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const obtenerRegistroPorColumna = async <T extends TypesInterfaces>(dataColumn: any, column: keyof T, tabla: NameTables): Promise<T[]> => {
+  try {
+    const columnString = String(column);
+    const conn = await conectarBD();
+    const dataColumnToQuery = typeof dataColumn === 'string' ? `'${dataColumn}'` : dataColumn;
+    const querySQL = `SELECT * FROM ${tabla} WHERE ${columnString} = ${dataColumnToQuery};`;
     const [rows] = await conn.query(querySQL);
     const result = rows as T[];
     return result;
@@ -62,16 +81,16 @@ export const obtenerRegistroPorID = async <T extends TypesInterfaces>(id: number
   }
 };
 
-export const guardarNuevoDato = async <T extends TypesInterfaces>(objNuevo: T, param: NameTables): Promise<T[]> => {
+export const guardarNuevoRegistro = async <T extends TypesInterfaces>(objNuevo: T, tabla: NameTables): Promise<T[]> => {
   try {
     const columnasTabla: string = obtenerPropiedadesSeparadasPorComas(objNuevo);
     const datosTabla: string = obtenerDatosSeparadosPorComas(objNuevo);
     const conn = await conectarBD();
-    const querySQL = `INSERT INTO ${param} (${columnasTabla}) VALUES (${datosTabla});`;
+    const querySQL = `INSERT INTO ${tabla} (${columnasTabla}) VALUES (${datosTabla});`;
     const [rows] = await conn.query(querySQL);
     const insertId = (rows as any)?.insertId;
     if (insertId !== undefined) {
-      const datoInsertado: T[] = await obtenerRegistroPorID<T>(insertId, param);
+      const datoInsertado: T[] = await obtenerRegistroPorID<T>(insertId, tabla);
       return datoInsertado;
     } else {
       throw new Error('Error al obtener el registro insertado.');
@@ -81,18 +100,48 @@ export const guardarNuevoDato = async <T extends TypesInterfaces>(objNuevo: T, p
   }
 };
 
-export const obtenerRegistroCompleto = async <T extends TypesInterfaces>(dataColumn: any, column: keyof T, param: NameTables): Promise<T[]> => {
+export const actualizarRegistroPorID = async <T extends TypesInterfaces>(id: number, objNuevo: T, tabla: NameTables): Promise<T[]> => {
   try {
-    const columnString = String(column);
+    const parColumnaValor: string = obtenerParKeyValorSeparadosPorComas(objNuevo);
+    const nameTableLC: string = tabla.toLowerCase();
     const conn = await conectarBD();
-    const dataColumnToQuery = typeof dataColumn === 'string' ? `'${dataColumn}'` : dataColumn;
-    const querySQL = `SELECT * FROM ${param} WHERE ${columnString} = ${dataColumnToQuery};`;
+    const idEscapado = conn.escape(id);
+    const querySQL = `UPDATE ${tabla} SET ${parColumnaValor} WHERE id_${nameTableLC} = ${idEscapado};`;
     console.log(querySQL)
     const [rows] = await conn.query(querySQL);
-    const result = rows as T[];
-    return result;
+    const columnasAfectadas = (rows as any)?.affectedRows;
+    if (columnasAfectadas !== undefined && columnasAfectadas > 0) {
+      const datoInsertado: T[] = await obtenerRegistroPorID<T>(id, tabla);
+      return datoInsertado;
+    } else {
+      throw new Error('Error al actualizar el registro.');
+    }
   } catch (err) {
     throw err;
   }
 };
 
+export const borrarRegistroPorID = async <T extends TypesInterfaces>(id: number, tabla: NameTables): Promise<T[]> => {
+  try {
+    const nameTableLC: string = tabla.toLowerCase();
+    const conn = await conectarBD();
+    const idEscapado = conn.escape(id);
+    const querySQL = `SELECT * FROM ${tabla} WHERE id_${nameTableLC} = ${idEscapado};`;
+    const [rows] = await conn.query(querySQL);
+    if (Array.isArray(rows) && rows.length > 0) {
+      const querySQL2 = `DELETE FROM ${tabla} WHERE id_${nameTableLC} = ${idEscapado};`;
+      const [rows2] = await conn.query(querySQL2);
+      const columnasAfectadas = (rows2 as any)?.affectedRows;
+      if (columnasAfectadas !== undefined && columnasAfectadas > 0) {
+        const result = rows as T[];
+        return result;
+      } else {
+        throw new Error('Error al borrar el registro.');
+      }
+    } else {
+      throw new Error('Error al borrar el registro, no se encontró ese ID');
+    }
+  } catch (err) {
+    throw err;
+  }
+};
