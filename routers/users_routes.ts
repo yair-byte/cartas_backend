@@ -21,7 +21,8 @@ routerUsuario.post('/nuevo', async (req: Request, res: Response) => {
       nombre_usuario: req.body.nombre_usuario,
       contrasenia: passwordHash,
       correo_electronico: req.body.correo_electronico,
-      role: req.body.role
+      role: req.body.role,
+      activo: true
     });
     const registroInsertado: Usuario[] = await guardarNuevoRegistro<Usuario>(nuevoUsuario, NameTables.Usuario);
     return res.status(200).json(registroInsertado);
@@ -61,7 +62,7 @@ routerUsuario.post('/login', async (req: Request, res: Response) => {
   }
 });
 
-/* Obtener todos los Usuarios */
+//  Obtener todos los Usuarios 
 routerUsuario.get('/', async (_req: Request, res: Response) => {
   try {
     const usuarios: Usuario[] = await obtenerTablaCompleta<Usuario>(NameTables.Usuario);
@@ -72,7 +73,7 @@ routerUsuario.get('/', async (_req: Request, res: Response) => {
   }
 });
 
-/* Obtener usuario por ID */
+//  Obtener usuario por ID
 routerUsuario.get('/:id', async (req: Request, res: Response) => {
   try {
     const id: number = parseInt(req.params.id, 10);
@@ -84,7 +85,7 @@ routerUsuario.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
-/* actualizar datos de un usuario */
+//  actualizar datos de un usuario 
 routerUsuario.put('/:id', verificarPermisos(Permission.Administrador), async (req: Request, res: Response) => {
   try {
     const id: number = parseInt(req.params.id, 10);
@@ -93,7 +94,8 @@ routerUsuario.put('/:id', verificarPermisos(Permission.Administrador), async (re
       nombre_usuario: req.body.nombre_usuario,
       contrasenia: passwordHash,
       correo_electronico: req.body.correo_electronico,
-      role: req.body.role
+      role: req.body.role,
+      activo: req.body.activo
     });
     const usuarioActualizado: Usuario[] = await actualizarRegistroPorID<Usuario>(id, nuevoUsuario, NameTables.Usuario);
     return res.status(200).json(usuarioActualizado);
@@ -103,7 +105,7 @@ routerUsuario.put('/:id', verificarPermisos(Permission.Administrador), async (re
   }
 });
 
-/* borrar un usuario */
+//  borrar un usuario 
 routerUsuario.delete('/:id', verificarPermisos(Permission.Administrador), async (req: Request, res: Response) => {
   try {
     const id: number = parseInt(req.params.id, 10);

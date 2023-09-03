@@ -6,7 +6,13 @@ export const conectarBD = async () => {
     user: 'root',
     password: 'Asdasd1#',
     database: 'cartas_bd',
-    connectionLimit: 10,
+    connectionLimit: 1,
   });
   return conexion;
+};
+
+export const cerrarConexionBD = async (pool: Pool | undefined) => {
+  if (pool) {
+    await pool.end();
+  }
 };
