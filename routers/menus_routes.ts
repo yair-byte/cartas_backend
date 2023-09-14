@@ -144,16 +144,23 @@ routerMenus.get('/:id', async (req: Request, res: Response) => {
             const comidas = arrComidas
               .filter((comida) => comida.id_tipoplato === tipoPlato.id_tipoplato)
               .map((comida) => {
-                const comidaTamanio = arrComidasTamanios.find((ct) => ct.id_comida === comida.id_comida) as Comida_Tamanio;
-                const tamanio = arrTamanios.find((t) => t.id_tamanio === comidaTamanio.id_tamanio) as Tamanio;
+                const comidaTamanios = arrComidasTamanios
+                  .filter((ct) => ct.id_comida === comida.id_comida)
+                  .map((ct) => {
+                    const tamanio = arrTamanios.find((t) => t.id_tamanio === ct.id_tamanio) as Tamanio;
+                    return {
+                      id_tamanio: ct.id_tamanio,
+                      tamanio: tamanio.tamanio,
+                      precio_unidad: ct.precio_unidad,
+                      disponible: ct.disponible,
+                      oferta: ct.oferta,
+                    };
+                  });
                 return {
                   id_comida: comida.id_comida,
                   nombre_comida: comida.nombre_comida,
                   ingredientes: comida.ingredientes,
-                  tamanio: tamanio.tamanio,
-                  precio_unidad: comidaTamanio.precio_unidad,
-                  disponible: comidaTamanio.disponible,
-                  oferta: comidaTamanio.oferta,
+                  tamanios: comidaTamanios,
                 };
               }).filter(Boolean);
             return {

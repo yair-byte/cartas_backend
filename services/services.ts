@@ -95,6 +95,29 @@ export const obtenerRegistroPorColumna = async <T extends TypesInterfaces>(dataC
   }
 };
 
+export const obtenerRegistroPorDosColumna = async <T extends TypesInterfaces>(dataColumn1: any, dataColumn2: any, column1: keyof T, column2: keyof T, tabla: NameTables): Promise<T[]> => {
+  let conn: Pool | undefined;
+  try {
+    const columnString1 = String(column1);
+    const columnString2 = String(column2);
+    conn = await conectarBD();
+    const dataColumn1ToQuery = typeof dataColumn1 === 'string' ? `'${dataColumn1}'` : dataColumn1;
+    const dataColumn2ToQuery = typeof dataColumn2 === 'string' ? `'${dataColumn2}'` : dataColumn2;
+    const querySQL = `SELECT * FROM ${tabla} WHERE ${columnString1} = ${dataColumn1ToQuery} AND ${columnString2} = ${dataColumn2ToQuery};`;
+    const [rows] = await conn.query(querySQL);
+    if (Array.isArray(rows) && rows.length > 0) {
+      const result = rows as T[];
+      return result;
+    } else {
+      throw new Error('Error al obtener el registro por dos columnas');
+    }
+  } catch (err) {
+    throw err;
+  } finally {
+    await cerrarConexionBD(conn);
+  }
+};
+
 export const guardarNuevoRegistro = async <T extends TypesInterfaces>(objNuevo: T, tabla: NameTables): Promise<T[]> => {
   let conn: Pool | undefined;
   try {

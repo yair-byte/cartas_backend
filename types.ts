@@ -167,10 +167,13 @@ export interface CartaCompleta {
         id_comida?: number;
         nombre_comida: string;
         ingredientes: string;
-        tamanio: string;
-        precio_unidad: number;
-        disponible: boolean;
-        oferta: boolean;
+        tamanios: {
+          id_tamanio?: number;
+          tamanio: string;
+          precio_unidad: number;
+          disponible: boolean;
+          oferta: boolean;
+        }[];
       }[];
     }[];
   }[];
@@ -230,88 +233,25 @@ EJEMPLO
       "descripcion_tipopago": "Efectivo"
     },
     {
-      "id_tipopago": 3,
-      "descripcion_tipopago": "MercadoPago"
-    },
-    {
       "id_tipopago": 2,
       "descripcion_tipopago": "Tarjeta Debito/Credito"
+    },
+    {
+      "id_tipopago": 3,
+      "descripcion_tipopago": "MercadoPago"
     }
   ],
   "tiposEntrega": [
     {
-      "id_tipoentrega": 3,
-      "descripcion_tipoentrega": "A domicilio"
-    },
-    {
       "id_tipoentrega": 1,
       "descripcion_tipoentrega": "En el Local"
+    },
+    {
+      "id_tipoentrega": 3,
+      "descripcion_tipoentrega": "A domicilio"
     }
   ],
   "secciones": [
-    {
-      "id_seccion": 2,
-      "nombre_seccion": "Platos Principales",
-      "tiposPlato": [
-        {
-          "id_tipoplato": 3,
-          "nombre_tipoplato": "Pizza",
-          "comidas": [
-            {
-              "id_comida": 2,
-              "nombre_comida": "Pizza Margarita",
-              "ingredientes": "Masa, tomate, mozzarella, albahaca",
-              "tamanio": "Pequeño",
-              "precio_unidad": "3.20",
-              "disponible": 1,
-              "oferta": 0
-            },
-            {
-              "id_comida": 4,
-              "nombre_comida": "Pizza Anana",
-              "ingredientes": "Pasta, salsa alfredo, pollo, parmesano",
-              "tamanio": "Pequeño",
-              "precio_unidad": "1.99",
-              "disponible": 1,
-              "oferta": 0
-            }
-          ]
-        },
-        {
-          "id_tipoplato": 4,
-          "nombre_tipoplato": "Empanadas",
-          "comidas": [
-            {
-              "id_comida": 7,
-              "nombre_comida": "Empanada Carne",
-              "ingredientes": "Carne, cebolla, especias",
-              "tamanio": "Unidad",
-              "precio_unidad": "5.89",
-              "disponible": 1,
-              "oferta": 0
-            },
-            {
-              "id_comida": 8,
-              "nombre_comida": "Empanada Pollo",
-              "ingredientes": "Pollo, cebolla, pimientos",
-              "tamanio": "Porcion",
-              "precio_unidad": "1.78",
-              "disponible": 1,
-              "oferta": 0
-            },
-            {
-              "id_comida": 9,
-              "nombre_comida": "Empanada Jamon y Queso",
-              "ingredientes": "Jamón, queso, masa",
-              "tamanio": "Pequeño",
-              "precio_unidad": "10.50",
-              "disponible": 1,
-              "oferta": 0
-            }
-          ]
-        }
-      ]
-    },
     {
       "id_seccion": 1,
       "nombre_seccion": "Entradas",
@@ -324,10 +264,22 @@ EJEMPLO
               "id_comida": 1,
               "nombre_comida": "Ensaladita",
               "ingredientes": "Lechuga, tomate, queso, aderezo",
-              "tamanio": "Pequeño",
-              "precio_unidad": "9.22",
-              "disponible": 1,
-              "oferta": 0
+              "tamanios": [
+                {
+                  "id_tamanio": 1,
+                  "tamanio": "Pequeño",
+                  "precio_unidad": "9.22",
+                  "disponible": 1,
+                  "oferta": 0
+                },
+                {
+                  "id_tamanio": 2,
+                  "tamanio": "Mediano",
+                  "precio_unidad": "1.27",
+                  "disponible": 1,
+                  "oferta": 0
+                }
+              ]
             }
           ]
         },
@@ -339,10 +291,124 @@ EJEMPLO
               "id_comida": 3,
               "nombre_comida": "Hamburguesita",
               "ingredientes": "Carne de res, pan, lechuga, tomate, queso",
-              "tamanio": "Pequeño",
-              "precio_unidad": "0.98",
-              "disponible": 1,
-              "oferta": 0
+              "tamanios": [
+                {
+                  "id_tamanio": 1,
+                  "tamanio": "Pequeño",
+                  "precio_unidad": "0.98",
+                  "disponible": 1,
+                  "oferta": 0
+                },
+                {
+                  "id_tamanio": 2,
+                  "tamanio": "Mediano",
+                  "precio_unidad": "1.50",
+                  "disponible": 1,
+                  "oferta": 1
+                },
+                {
+                  "id_tamanio": 3,
+                  "tamanio": "Grande",
+                  "precio_unidad": "1.99",
+                  "disponible": 0,
+                  "oferta": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id_seccion": 2,
+      "nombre_seccion": "Platos Principales",
+      "tiposPlato": [
+        {
+          "id_tipoplato": 3,
+          "nombre_tipoplato": "Pizza",
+          "comidas": [
+            {
+              "id_comida": 2,
+              "nombre_comida": "Pizza Margarita",
+              "ingredientes": "Masa, tomate, mozzarella, albahaca",
+              "tamanios": [
+                {
+                  "id_tamanio": 1,
+                  "tamanio": "Pequeño",
+                  "precio_unidad": "3.20",
+                  "disponible": 1,
+                  "oferta": 0
+                }
+              ]
+            },
+            {
+              "id_comida": 4,
+              "nombre_comida": "Pizza Anana",
+              "ingredientes": "Pasta, salsa alfredo, pollo, parmesano",
+              "tamanios": [
+                {
+                  "id_tamanio": 1,
+                  "tamanio": "Pequeño",
+                  "precio_unidad": "1.99",
+                  "disponible": 1,
+                  "oferta": 0
+                },
+                {
+                  "id_tamanio": 3,
+                  "tamanio": "Grande",
+                  "precio_unidad": "2.00",
+                  "disponible": 1,
+                  "oferta": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id_tipoplato": 4,
+          "nombre_tipoplato": "Empanadas",
+          "comidas": [
+            {
+              "id_comida": 7,
+              "nombre_comida": "Empanada Carne",
+              "ingredientes": "Carne, cebolla, especias",
+              "tamanios": [
+                {
+                  "id_tamanio": 4,
+                  "tamanio": "Unidad",
+                  "precio_unidad": "5.89",
+                  "disponible": 1,
+                  "oferta": 0
+                }
+              ]
+            },
+            {
+              "id_comida": 8,
+              "nombre_comida": "Empanada Pollo",
+              "ingredientes": "Pollo, cebolla, pimientos",
+              "tamanios": [
+                {
+                  "id_tamanio": 5,
+                  "tamanio": "Porcion",
+                  "precio_unidad": "1.78",
+                  "disponible": 1,
+                  "oferta": 0
+                }
+              ]
+            },
+            {
+              "id_comida": 9,
+              "nombre_comida": "Empanada Jamon y Queso",
+              "ingredientes": "Jamón, queso, masa",
+              "tamanios": [
+                {
+                  "id_tamanio": 1,
+                  "tamanio": "Pequeño",
+                  "precio_unidad": "10.50",
+                  "disponible": 1,
+                  "oferta": 0
+                }
+              ]
             }
           ]
         }
@@ -359,20 +425,44 @@ EJEMPLO
             {
               "id_comida": 5,
               "nombre_comida": "Torta Tiramisú",
-              "ingredientes": "Bizcochos de café, crema mascarpone, cacao",
-              "tamanio": "Mediano",
-              "precio_unidad": "2.10",
-              "disponible": 1,
-              "oferta": 0
+              "ingredientes": "Tiramisu, Bizcochos de café, crema mascarpone, cacao",
+              "tamanios": [
+                {
+                  "id_tamanio": 2,
+                  "tamanio": "Mediano",
+                  "precio_unidad": "2.10",
+                  "disponible": 1,
+                  "oferta": 0
+                }
+              ]
             },
             {
               "id_comida": 6,
               "nombre_comida": "Torta Oreo",
-              "ingredientes": "Salmón, atún, aguacate, arroz, alga",
-              "tamanio": "Pequeño",
-              "precio_unidad": "6.67",
-              "disponible": 1,
-              "oferta": 0
+              "ingredientes": "Oreo, Salmón, atún, aguacate, arroz, alga",
+              "tamanios": [
+                {
+                  "id_tamanio": 1,
+                  "tamanio": "Pequeño",
+                  "precio_unidad": "6.67",
+                  "disponible": 1,
+                  "oferta": 0
+                },
+                {
+                  "id_tamanio": 2,
+                  "tamanio": "Mediano",
+                  "precio_unidad": "9.99",
+                  "disponible": 1,
+                  "oferta": 1
+                },
+                {
+                  "id_tamanio": 3,
+                  "tamanio": "Grande",
+                  "precio_unidad": "5.55",
+                  "disponible": 1,
+                  "oferta": 0
+                }
+              ]
             }
           ]
         }
