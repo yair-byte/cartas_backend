@@ -1,6 +1,6 @@
 import express from 'express';
 import { Request, Response } from 'express';
-import { borrarRegistroPorID, guardarNuevoRegistro, obtenerRegistroPorColumna, verificarPermisos } from '../services/services';
+import { actualizarRegistroPorID, borrarRegistroPorID, guardarNuevoRegistro, obtenerRegistroPorColumna, verificarPermisos } from '../services/services';
 import { NameTables, Permission } from '../enums';
 import { Tamanio } from '../types';
 import { crearNuevoTamanio } from '../utils';
@@ -33,6 +33,21 @@ routerTamanios.get('/:id', async (req: Request, res: Response) => {
       return res.status(404).json({ error: 'No hay Tamaños con ese ID!' });
     }
     return res.status(200).json(arrTamanios);
+  } catch (err) {
+    const error: Error = err as Error;
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+// Actualizar un Tamanio por su id
+routerTamanios.put('/:id', verificarPermisos(Permission.Administrador), async (req: Request, res: Response) => {
+  try {
+    const id: number = parseInt(req.params.id, 10);
+    const nuevoTipoPago: Tamanio = crearNuevoTamanio({
+      tamanio: req.body.tamanio
+    });
+    const TamanioActualizado: Tamanio[] = await actualizarRegistroPorID<Tamanio>(id, nuevoTipoPago, NameTables.Tamanio);
+    return res.status(200).json(TamanioActualizado);
   } catch (err) {
     const error: Error = err as Error;
     return res.status(500).json({ error: error.message });

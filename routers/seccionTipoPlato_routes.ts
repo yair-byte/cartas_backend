@@ -40,7 +40,7 @@ routerSeccionTipoPlato.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
-//  actualizar datos de una SeccionTipoPlato
+//  actualizar datos de una SeccionTipoPlato por ID
 routerSeccionTipoPlato.put('/:id', verificarPermisos(Permission.Usuario), async (req: Request, res: Response) => {
   try {
     const id: number = parseInt(req.params.id, 10);

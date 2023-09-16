@@ -41,7 +41,7 @@ routerTelefonos.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
-//  actualizar datos de un Telefono
+//  actualizar datos de un Telefono por ID
 routerTelefonos.put('/:id', verificarPermisos(Permission.Usuario), async (req: Request, res: Response) => {
   try {
     const id: number = parseInt(req.params.id, 10);

@@ -1,4 +1,4 @@
-import { Horario, LocalCarta, LocalCarta_Seccion, LocalCarta_TipoEntrega, LocalCarta_TipoPago, Pedido, Seccion, Seccion_TipoPlato, Tamanio, Telefono, TipoEntrega, TipoPago, TipoPlato, TypesInterfaces, Usuario } from './types';
+import { Comida, Comida_Tamanio, Comida_Tamanio_Pedido, Horario, LocalCarta, LocalCarta_Seccion, LocalCarta_TipoEntrega, LocalCarta_TipoPago, Pedido, Seccion, Seccion_TipoPlato, Tamanio, Telefono, TipoEntrega, TipoPago, TipoPlato, TypesInterfaces, Usuario } from './types';
 
 /* Verficacion de Tipos */
 const isTIME = (value: string): boolean => {
@@ -102,6 +102,35 @@ const validador_TIME = (value: string): boolean => {
     }
   }
   return false;
+};
+
+export const crearNuevaComidaTamanioPedidos = (object: any): Comida_Tamanio_Pedido => {
+  const newComida_Tamanio_Pedido: Comida_Tamanio_Pedido = {
+    id_comida_tamanio: parseNumber(object.id_comida_tamanio),
+    id_pedido: parseNumber(object.id_pedido),
+    cantidad_unidades: parseNumber(object.cantidad_unidades)
+  };
+  return newComida_Tamanio_Pedido;
+};
+
+export const crearNuevaComidaTamanio = (object: any): Comida_Tamanio => {
+  const newComida_Tamanio: Comida_Tamanio = {
+    id_comida: parseNumber(object.id_comida),
+    id_tamanio: parseNumber(object.id_tamanio),
+    precio_unidad: parseNumber(object.precio_unidad),
+    disponible: parseBooleanTinyint1(object.disponible),
+    oferta: parseBooleanTinyint1(object.oferta)
+  };
+  return newComida_Tamanio;
+};
+
+export const crearNuevaComida = (object: any): Comida => {
+  const newComida: Comida = {
+    id_tipoplato: parseNumber(object.id_tipoplato),
+    nombre_comida: parseString(object.nombre_comida),
+    ingredientes: parseString(object.ingredientes)
+  };
+  return newComida;
 };
 
 export const crearNuevaSeccionTipoPlato = (object: any): Seccion_TipoPlato => {

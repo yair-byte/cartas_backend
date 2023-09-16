@@ -39,7 +39,7 @@ routerSecciones.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
-//  actualizar datos de una Seccion
+//  actualizar datos de una Seccion por ID
 routerSecciones.put('/:id', verificarPermisos(Permission.Usuario), async (req: Request, res: Response) => {
   try {
     const id: number = parseInt(req.params.id, 10);

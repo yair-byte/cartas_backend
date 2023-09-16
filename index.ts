@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
-import routerUsers from './routers/users_routes';
 import config from './config';
 import helmet from 'helmet';
+import routerUsers from './routers/users_routes';
 import routerLocales from './routers/locales_routes';
 import routerMenus from './routers/menus_routes';
 import routerPedidos from './routers/pedidos_routes';
@@ -16,6 +16,10 @@ import routerSecciones from './routers/secciones_routes';
 import routerLocalSeccion from './routers/localSeccion_routes';
 import routerLocalTipoPago from './routers/localTipoPago_routes';
 import routerLocalTipoEntrega from './routers/localTipoEntrega_routes';
+import routerSeccionTipoPlato from './routers/seccionTipoPlato_routes';
+import routerComidas from './routers/comidas_routes';
+import routerComidaTamanio from './routers/comidaTamanio_routes';
+import routerComidaTamanioPedidos from './routers/comidaTamanioPedidos_routes';
 
 const app = express();
 
@@ -32,16 +36,20 @@ app.use('/api/locales/', routerLocales);
 app.use('/api/usuarios/', routerUsers);
 app.use('/api/menus/', routerMenus);
 app.use('/api/secciones/', routerSecciones);
+app.use('/api/comidas/', routerComidas);
 app.use('/api/pedidos/', routerPedidos);
 app.use('/api/horarios/', routerHorarios);  
 app.use('/api/tamanios/', routerTamanios);  
 app.use('/api/telefonos/', routerTelefonos); 
 app.use('/api/tipospago/', routerTipoPago);         
 app.use('/api/tiposentrega/', routerTipoEntrega);
-app.use('/api/tiposplato/', routerTipoPlato);
+app.use('/api/tipoplato/', routerTipoPlato);
 app.use('/api/localsecciones/', routerLocalSeccion);
 app.use('/api/localtipospago/', routerLocalTipoPago);
 app.use('/api/localtiposentrega/', routerLocalTipoEntrega);
+app.use('/api/secciontipoplato', routerSeccionTipoPlato);
+app.use('/api/comidastamanio/', routerComidaTamanio);
+app.use('/api/comidastamaniopedidos/', routerComidaTamanioPedidos);
 
 //start server
 app.listen(config.PORT, () => {

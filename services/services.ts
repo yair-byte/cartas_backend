@@ -125,20 +125,20 @@ export const guardarNuevoRegistro = async <T extends TypesInterfaces>(objNuevo: 
     const datosTabla: string = obtenerDatosSeparadosPorComas(objNuevo);
     conn = await conectarBD();
     try {
-      await conn.query('START TRANSACTION');
+      await conn.query('START TRANSACTION;');
       const querySQL = `INSERT INTO ${tabla} (${columnasTabla}) VALUES (${datosTabla});`;
       const [rows] = await conn.query(querySQL);
       const insertId = (rows as any)?.insertId;
       if (insertId !== undefined) {
-        await conn.query('COMMIT');
+        await conn.query('COMMIT;');
         const datoInsertado: T[] = await obtenerRegistroPorID<T>(insertId, tabla);
         return datoInsertado;
       } else {
-        await conn.query('ROLLBACK');
+        await conn.query('ROLLBACK;');
         throw new Error('Error al obtener el registro insertado.');
       }
     } catch (err) {
-      await conn.query('ROLLBACK');
+      await conn.query('ROLLBACK;');
       throw err;
     }
   } catch (err) {
@@ -155,21 +155,21 @@ export const actualizarRegistroPorID = async <T extends TypesInterfaces>(id: num
     const nameTableLC: string = tabla.toLowerCase();
     conn = await conectarBD();
     try {
-      await conn.query('START TRANSACTION');
+      await conn.query('START TRANSACTION;');
       const idEscapado = conn.escape(id);
       const querySQL = `UPDATE ${tabla} SET ${parColumnaValor} WHERE id_${nameTableLC} = ${idEscapado};`;
       const [rows] = await conn.query(querySQL);
       const columnasAfectadas = (rows as any)?.affectedRows;
       if (columnasAfectadas !== undefined && columnasAfectadas > 0) {
-        await conn.query('COMMIT');
+        await conn.query('COMMIT;');
         const datoInsertado: T[] = await obtenerRegistroPorID<T>(id, tabla);
         return datoInsertado;
       } else {
-        await conn.query('ROLLBACK');
+        await conn.query('ROLLBACK;');
         throw new Error('Error al actualizar el registro.');
       }
     } catch (err) {
-      await conn.query('ROLLBACK');
+      await conn.query('ROLLBACK;');
       throw err;
     }
   } catch (err) {
@@ -185,7 +185,7 @@ export const borrarRegistroPorID = async <T extends TypesInterfaces>(id: number,
     const nameTableLC: string = tabla.toLowerCase();
     conn = await conectarBD();
     try {
-      await conn.query('START TRANSACTION');
+      await conn.query('START TRANSACTION;');
       const idEscapado = conn.escape(id);
       const querySQL = `SELECT * FROM ${tabla} WHERE id_${nameTableLC} = ${idEscapado};`;
       const [rows] = await conn.query(querySQL);
@@ -195,18 +195,18 @@ export const borrarRegistroPorID = async <T extends TypesInterfaces>(id: number,
         const columnasAfectadas = (rows2 as any)?.affectedRows;
         if (columnasAfectadas !== undefined && columnasAfectadas > 0) {
           const result = rows as T[];
-          await conn.query('COMMIT');
+          await conn.query('COMMIT;');
           return result;
         } else {
-          await conn.query('ROLLBACK');
+          await conn.query('ROLLBACK;');
           throw new Error('Error al borrar el registro.');
         }
       } else {
-        await conn.query('ROLLBACK');
+        await conn.query('ROLLBACK;');
         throw new Error('Error al borrar el registro, no se encontró ese ID');
       }
     } catch (err) {
-      await conn.query('ROLLBACK');
+      await conn.query('ROLLBACK;');
       throw err;
     }
   } catch (err) {

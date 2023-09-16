@@ -40,7 +40,7 @@ routerTipoPlato.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
-//  actualizar datos de un TipoPlato
+//  actualizar datos de un TipoPlato por ID
 routerTipoPlato.put('/:id', verificarPermisos(Permission.Usuario), async (req: Request, res: Response) => {
   try {
     const id: number = parseInt(req.params.id, 10);
