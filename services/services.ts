@@ -58,9 +58,8 @@ export const obtenerRegistroPorID = async <T extends TypesInterfaces>(id: number
   try {
     const nameTableLC: string = tabla.toLowerCase();
     conn = await conectarBD();
-    const idEscapado = conn.escape(id);
-    const querySQL = `SELECT * FROM ${tabla} WHERE id_${nameTableLC} = ${idEscapado};`;
-    const [rows] = await conn.query(querySQL);
+    const querySQL = `SELECT * FROM ${tabla} WHERE id_${nameTableLC} = ?;`;
+    const [rows] = await conn.query(querySQL, [id]);
     if (Array.isArray(rows) && rows.length === 1) {
       const result = rows as T[];
       return result;
@@ -79,9 +78,8 @@ export const obtenerRegistroPorColumna = async <T extends TypesInterfaces>(dataC
   try {
     const columnString = String(column);
     conn = await conectarBD();
-    const dataColumnToQuery = typeof dataColumn === 'string' ? `'${dataColumn}'` : dataColumn;
-    const querySQL = `SELECT * FROM ${tabla} WHERE ${columnString} = ${dataColumnToQuery};`;
-    const [rows] = await conn.query(querySQL);
+    const querySQL = `SELECT * FROM ${tabla} WHERE ${columnString} = ?;`;
+    const [rows] = await conn.query(querySQL, [dataColumn]);
     if (Array.isArray(rows) && rows.length > 0) {
       const result = rows as T[];
       return result;
@@ -101,10 +99,8 @@ export const obtenerRegistroPorDosColumna = async <T extends TypesInterfaces>(da
     const columnString1 = String(column1);
     const columnString2 = String(column2);
     conn = await conectarBD();
-    const dataColumn1ToQuery = typeof dataColumn1 === 'string' ? `'${dataColumn1}'` : dataColumn1;
-    const dataColumn2ToQuery = typeof dataColumn2 === 'string' ? `'${dataColumn2}'` : dataColumn2;
-    const querySQL = `SELECT * FROM ${tabla} WHERE ${columnString1} = ${dataColumn1ToQuery} AND ${columnString2} = ${dataColumn2ToQuery};`;
-    const [rows] = await conn.query(querySQL);
+    const querySQL = `SELECT * FROM ${tabla} WHERE ${columnString1} = ? AND ${columnString2} = ?;`;
+    const [rows] = await conn.query(querySQL, [dataColumn1, dataColumn2]);
     if (Array.isArray(rows) && rows.length > 0) {
       const result = rows as T[];
       return result;

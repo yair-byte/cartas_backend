@@ -31,11 +31,13 @@ const isTINYINT1 = (value: number): boolean => {
 
 
 /* Parsers */
-const parseTIME = (TimeFromRequest: any): string => {
-  if ((isNull(TimeFromRequest)) || (!isString(TimeFromRequest)) || (!isTIME(TimeFromRequest))) {
-    throw new Error('Tipo incorrecto, se esperaba un TIME');
+const parseTIME_o_NULL = (TimeFromRequest: any): string | null => {
+  if ((isNull(TimeFromRequest)) || (isString(TimeFromRequest)) || (isTIME(TimeFromRequest))) {
+    return TimeFromRequest;
   }
-  return TimeFromRequest;
+  else {
+    throw new Error('Tipo incorrecto, se esperaba un TIME o NULL');
+  }
 };
 
 const parseNumber_o_NULL = (numberFromRequest: any): number | null => {
@@ -213,20 +215,20 @@ export const crearNuevoTamanio = (object: any): Tamanio => {
 export const crearNuevoHorario = (object: any): Horario => {
   const newHorario: Horario = {
     id_localcarta: parseNumber(object.id_localcarta),
-    lunes_apertura: parseTIME(object.lunes_apertura),
-    lunes_cierre: parseTIME(object.lunes_cierre),
-    martes_apertura: parseTIME(object.martes_apertura),
-    martes_cierre: parseTIME(object.martes_cierre),
-    miercoles_apertura: parseTIME(object.miercoles_apertura),
-    miercoles_cierre: parseTIME(object.miercoles_cierre),
-    jueves_apertura: parseTIME(object.jueves_apertura),
-    jueves_cierre: parseTIME(object.jueves_cierre),
-    viernes_apertura: parseTIME(object.viernes_apertura),
-    viernes_cierre: parseTIME(object.viernes_cierre),
-    sabado_apertura: parseTIME(object.sabado_apertura),
-    sabado_cierre: parseTIME(object.sabado_cierre),
-    domingo_apertura: parseTIME(object.domingo_apertura),
-    domingo_cierre: parseTIME(object.domingo_cierre)
+    lunes_apertura: parseTIME_o_NULL(object.lunes_apertura),
+    lunes_cierre: parseTIME_o_NULL(object.lunes_cierre),
+    martes_apertura: parseTIME_o_NULL(object.martes_apertura),
+    martes_cierre: parseTIME_o_NULL(object.martes_cierre),
+    miercoles_apertura: parseTIME_o_NULL(object.miercoles_apertura),
+    miercoles_cierre: parseTIME_o_NULL(object.miercoles_cierre),
+    jueves_apertura: parseTIME_o_NULL(object.jueves_apertura),
+    jueves_cierre: parseTIME_o_NULL(object.jueves_cierre),
+    viernes_apertura: parseTIME_o_NULL(object.viernes_apertura),
+    viernes_cierre: parseTIME_o_NULL(object.viernes_cierre),
+    sabado_apertura: parseTIME_o_NULL(object.sabado_apertura),
+    sabado_cierre: parseTIME_o_NULL(object.sabado_cierre),
+    domingo_apertura: parseTIME_o_NULL(object.domingo_apertura),
+    domingo_cierre: parseTIME_o_NULL(object.domingo_cierre)
   };
   return newHorario;
 };
@@ -253,8 +255,7 @@ export const crearNuevolocalCarta = (object: any): LocalCarta => {
     cdi: parseString(object.cdi),
     calle: parseString(object.calle),
     altura: parseNumber(object.altura),
-    piso: parseString_o_NULL(object.piso),
-    activo: parseBooleanTinyint1(object.activo),
+    piso: parseString_o_NULL(object.piso)
   };
   return newLocalCarta;
 };

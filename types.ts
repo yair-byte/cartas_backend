@@ -43,7 +43,6 @@ export interface LocalCarta {
   calle: string;
   altura: number;
   piso: string | null;
-  activo: boolean;
 };
 
 export interface Telefono {
@@ -112,20 +111,20 @@ export interface LocalCarta_Seccion {
 export interface Horario {
   id_horario?: number;
   id_localcarta: number;
-  lunes_apertura: string;
-  lunes_cierre: string;
-  martes_apertura: string;
-  martes_cierre: string;
-  miercoles_apertura: string;
-  miercoles_cierre: string;
-  jueves_apertura: string;
-  jueves_cierre: string;
-  viernes_apertura: string;
-  viernes_cierre: string;
-  sabado_apertura: string;
-  sabado_cierre: string;
-  domingo_apertura: string;
-  domingo_cierre: string;
+  lunes_apertura: string | null;
+  lunes_cierre: string | null;
+  martes_apertura: string | null;
+  martes_cierre: string | null;
+  miercoles_apertura: string | null;
+  miercoles_cierre: string | null;
+  jueves_apertura: string | null;
+  jueves_cierre: string | null;
+  viernes_apertura: string | null;
+  viernes_cierre: string | null;
+  sabado_apertura: string | null;
+  sabado_cierre: string | null;
+  domingo_apertura: string | null;
+  domingo_cierre: string | null;
 };
 
 export interface TipoPago {
@@ -192,8 +191,7 @@ EJEMPLO
     "cdi": "XXXXXXXXXXXXX",
     "calle": "Calle A",
     "altura": 123,
-    "piso": "2A",
-    "activo": 1
+    "piso": "2A"
   },
   "telefonos": [
     {

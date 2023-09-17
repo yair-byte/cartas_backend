@@ -162,13 +162,13 @@ routerMenus.get('/:id', async (req: Request, res: Response) => {
                   ingredientes: comida.ingredientes,
                   tamanios: comidaTamanios,
                 };
-              }).filter(Boolean);
+              });
             return {
               id_tipoplato: tipoPlato.id_tipoplato,
               nombre_tipoplato: tipoPlato.nombre_tipoplato,
               comidas,
             };
-          }).filter(Boolean);
+          });
         return {
           id_seccion: seccion.id_seccion,
           nombre_seccion: seccion.nombre_seccion,

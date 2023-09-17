@@ -22,8 +22,7 @@ routerLocales.post('/nuevo', verificarPermisos(Permission.Usuario), async (req: 
       cdi: req.body.cdi,
       calle: req.body.calle,
       altura: req.body.altura,
-      piso: req.body.piso,
-      activo: true
+      piso: req.body.piso
     });
     const registroInsertado: LocalCarta[] = await guardarNuevoRegistro<LocalCarta>(nuevoLocalCarta, NameTables.LocalCarta);
     return res.status(200).json(registroInsertado);
@@ -87,8 +86,7 @@ routerLocales.put('/:id', verificarPermisos(Permission.Usuario), async (req: Req
       cdi: req.body.cdi,
       calle: req.body.calle,
       altura: req.body.altura,
-      piso: req.body.piso,
-      activo: req.body.activo
+      piso: req.body.piso
     });
     const localCartaActualizado: LocalCarta[] = await actualizarRegistroPorID<LocalCarta>(id, nuevoLocalCarta, NameTables.LocalCarta);
     return res.status(200).json(localCartaActualizado);

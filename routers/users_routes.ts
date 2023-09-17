@@ -14,7 +14,7 @@ const routerUsuario = express.Router();
 routerUsuario.use(express.json());  //convierte JSON a Object JS
 
 // Crear un usuario y almacenar su contraseña hasheada
-routerUsuario.post('/nuevo', async (req: Request, res: Response) => {
+routerUsuario.post('/nuevo', verificarPermisos(Permission.Administrador), async (req: Request, res: Response) => {
   try {
     const passwordHash = await bcrypt.hash(req.body.contrasenia, 10);
     const nuevoUsuario: Usuario = crearNuevoUsuario({
@@ -63,7 +63,7 @@ routerUsuario.post('/login', async (req: Request, res: Response) => {
 });
 
 //  Obtener todos los Usuarios 
-routerUsuario.get('/', async (_req: Request, res: Response) => {
+routerUsuario.get('/', verificarPermisos(Permission.Administrador), async (_req: Request, res: Response) => {
   try {
     const usuarios: Usuario[] = await obtenerTablaCompleta<Usuario>(NameTables.Usuario);
     return res.status(200).json(usuarios);
