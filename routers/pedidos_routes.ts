@@ -1,6 +1,6 @@
 import express from 'express';
 import { Request, Response } from 'express';
-import { borrarRegistroPorID, guardarNuevoRegistro, obtenerRegistroPorColumna, obtenerTablaCompleta, verificarPermisos } from '../services/services';
+import { actualizarRegistroPorID, borrarRegistroPorID, guardarNuevoRegistro, obtenerRegistroPorColumna, obtenerRegistroPorID, obtenerTablaCompleta, verificarPermisos } from '../services/services';
 import { NameTables, Permission } from '../enums';
 import { Pedido } from '../types';
 import { crearNuevoPedido } from '../utils';
@@ -33,9 +33,24 @@ routerPedidos.post('/nuevo', async (req: Request, res: Response) => {
 routerPedidos.get('/:id', async (req: Request, res: Response) => {
   try {
     const id: number = parseInt(req.params.id, 10);
-    const arrPedidos: Pedido[] = await obtenerRegistroPorColumna<Pedido>(id, 'id_pedido', NameTables.Pedido);
+    const arrPedidos: Pedido[] = await obtenerRegistroPorID<Pedido>(id, NameTables.Pedido);
     if (arrPedidos.length === 0) {
       return res.status(404).json({ error: 'No hay Pedidos con ese ID!' });
+    }
+    return res.status(200).json(arrPedidos);
+  } catch (err) {
+    const error: Error = err as Error;
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+// Obtener un pedido por id de LocalCarta
+routerPedidos.get('/:id', async (req: Request, res: Response) => {
+  try {
+    const id: number = parseInt(req.params.id, 10);
+    const arrPedidos: Pedido[] = await obtenerRegistroPorColumna<Pedido>(id, 'id_localcarta', NameTables.Pedido);
+    if (arrPedidos.length === 0) {
+      return res.status(404).json({ error: 'No hay Pedidos con ese ID de LocalCarta!' });
     }
     return res.status(200).json(arrPedidos);
   } catch (err) {
@@ -49,6 +64,26 @@ routerPedidos.get('/', async (_req: Request, res: Response) => {
   try {
     const pedidos: Pedido[] = await obtenerTablaCompleta<Pedido>(NameTables.Pedido);
     return res.status(200).json(pedidos);
+  } catch (err) {
+    const error: Error = err as Error;
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+//  actualizar datos de un Pedido por su id
+routerPedidos.put('/:id', async (req: Request, res: Response) => {
+  try {
+    const id: number = parseInt(req.params.id, 10);
+    const nuevoPedido: Pedido = crearNuevoPedido({
+      id_localcarta: req.body.id_localcarta,
+      nombre_cliente: req.body.nombre_cliente,
+      fecha_pedido: req.body.fecha_pedido,
+      direccion_cliente: req.body.direccion_cliente,
+      nro_mesa: req.body.nro_mesa,
+      precio_total: req.body.precio_total
+    });
+    const pedidoActualizado: Pedido[] = await actualizarRegistroPorID<Pedido>(id, nuevoPedido, NameTables.Pedido);
+    return res.status(200).json(pedidoActualizado);
   } catch (err) {
     const error: Error = err as Error;
     return res.status(500).json({ error: error.message });

@@ -1,7 +1,7 @@
 import express from 'express';
 import { Request, Response } from 'express';
 import { NameTables } from '../enums';
-import { CartaCompleta, Comida, Comida_Tamanio, Horario, LocalCarta, LocalCarta_Seccion, LocalCarta_TipoEntrega, LocalCarta_TipoPago, Seccion, Seccion_TipoPlato, Tamanio, Telefono, TipoEntrega, TipoPago, TipoPlato } from '../types';
+import { CartaCompleta, Comida, Horario, LocalCarta, LocalCarta_Seccion, LocalCarta_TipoEntrega, LocalCarta_TipoPago, Seccion, Seccion_TipoPlato, Telefono, TipoEntrega, TipoPago, TipoPlato } from '../types';
 import { obtenerRegistroPorColumna, obtenerRegistroPorID } from '../services/services';
 
 const routerMenus = express.Router();
@@ -105,29 +105,6 @@ routerMenus.get('/:id', async (req: Request, res: Response) => {
     if (arrComidas.length === 0) {
       return res.status(404).json({ error: 'No hay Comidas ofrecidas para un Tipo de Plato!' });
     }
-    // buscar los tamaños de comida de cada una de ellas
-    let arrComidasTamanios: Comida_Tamanio[] = [];
-    await Promise.all(arrComidas.map(async (comida) => {
-      const comidasTamanios: Comida_Tamanio[] = await obtenerRegistroPorColumna<Comida_Tamanio>(comida.id_comida, 'id_comida', NameTables.Comida_Tamanio);
-      // mas de un registro que cumple la condicion
-      comidasTamanios.forEach((valueCT) => {
-        arrComidasTamanios.push(valueCT);
-      });
-    }));
-    if (arrComidasTamanios.length === 0) {
-      return res.status(404).json({ error: 'No hay Comida-Tamaño para una comida!' });
-    }
-    // obtener descripcion del tamaño de esa comida-tamanio
-    let arrTamanios: Tamanio[] = [];
-    await Promise.all(arrComidasTamanios.map(async (comidaTamanio) => {
-      const tamanios: Tamanio[] = await obtenerRegistroPorColumna<Tamanio>(comidaTamanio.id_tamanio, 'id_tamanio', NameTables.Tamanio);
-      if (tamanios.length > 0) {
-        arrTamanios.push(tamanios[0]);
-      }
-    }));
-    if (arrTamanios.length === 0 || arrTamanios.length !== arrComidasTamanios.length) {
-      return res.status(404).json({ error: 'No hay desc de Tamaño para una comida-tamanño!' });
-    }
 
     // Armar objeto a enviar
     const dataCartaCompleta: CartaCompleta = {
@@ -144,23 +121,12 @@ routerMenus.get('/:id', async (req: Request, res: Response) => {
             const comidas = arrComidas
               .filter((comida) => comida.id_tipoplato === tipoPlato.id_tipoplato)
               .map((comida) => {
-                const comidaTamanios = arrComidasTamanios
-                  .filter((ct) => ct.id_comida === comida.id_comida)
-                  .map((ct) => {
-                    const tamanio = arrTamanios.find((t) => t.id_tamanio === ct.id_tamanio) as Tamanio;
-                    return {
-                      id_tamanio: ct.id_tamanio,
-                      tamanio: tamanio.tamanio,
-                      precio_unidad: ct.precio_unidad,
-                      disponible: ct.disponible,
-                      oferta: ct.oferta,
-                    };
-                  });
                 return {
                   id_comida: comida.id_comida,
                   nombre_comida: comida.nombre_comida,
                   ingredientes: comida.ingredientes,
-                  tamanios: comidaTamanios,
+                  precio_unidad: comida.precio_unidad,
+                  disponible: comida.disponible
                 };
               });
             return {

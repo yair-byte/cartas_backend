@@ -17,6 +17,8 @@ routerComidas.post('/nuevo', verificarPermisos(Permission.Usuario), async (req: 
       id_tipoplato: req.body.id_tipoplato,
       nombre_comida: req.body.nombre_comida,
       ingredientes: req.body.ingredientes,
+      precio_unidad: req.body.precio_unidad,
+      disponible: true 
     });
     const registroInsertado: Comida[] = await guardarNuevoRegistro<Comida>(nuevaComida, NameTables.Comida);
     return res.status(200).json(registroInsertado);
@@ -49,6 +51,8 @@ routerComidas.put('/:id', verificarPermisos(Permission.Usuario), async (req: Req
       id_tipoplato: req.body.id_tipoplato,
       nombre_comida: req.body.nombre_comida,
       ingredientes: req.body.ingredientes,
+      precio_unidad: req.body.precio_unidad,
+      disponible: req.body.disponible
     });
     const comidaActualizado: Comida[] = await actualizarRegistroPorID<Comida>(id, nuevaComida, NameTables.Comida);
     return res.status(200).json(comidaActualizado);

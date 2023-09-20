@@ -1,4 +1,4 @@
-import { Comida, Comida_Tamanio, Comida_Tamanio_Pedido, Horario, LocalCarta, LocalCarta_Seccion, LocalCarta_TipoEntrega, LocalCarta_TipoPago, Pedido, Seccion, Seccion_TipoPlato, Tamanio, Telefono, TipoEntrega, TipoPago, TipoPlato, TypesInterfaces, Usuario } from './types';
+import { Comida, Horario, LocalCarta, LocalCarta_Seccion, LocalCarta_TipoEntrega, LocalCarta_TipoPago, Pedido, Pedido_Detalle, Seccion, Seccion_TipoPlato, Telefono, TipoEntrega, TipoPago, TipoPlato, TypesInterfaces, Usuario } from './types';
 
 /* Verficacion de Tipos */
 const isTIME = (value: string): boolean => {
@@ -106,31 +106,23 @@ const validador_TIME = (value: string): boolean => {
   return false;
 };
 
-export const crearNuevaComidaTamanioPedidos = (object: any): Comida_Tamanio_Pedido => {
-  const newComida_Tamanio_Pedido: Comida_Tamanio_Pedido = {
-    id_comida_tamanio: parseNumber(object.id_comida_tamanio),
+export const crearNuevoPedidoDetalle = (object: any): Pedido_Detalle => {
+  const newPedido: Pedido_Detalle = {
     id_pedido: parseNumber(object.id_pedido),
+    comida_descripcion: parseString(object.comida_descripcion),
+    precio_unidad: parseNumber(object.precio_unidad),
     cantidad_unidades: parseNumber(object.cantidad_unidades)
   };
-  return newComida_Tamanio_Pedido;
-};
-
-export const crearNuevaComidaTamanio = (object: any): Comida_Tamanio => {
-  const newComida_Tamanio: Comida_Tamanio = {
-    id_comida: parseNumber(object.id_comida),
-    id_tamanio: parseNumber(object.id_tamanio),
-    precio_unidad: parseNumber(object.precio_unidad),
-    disponible: parseBooleanTinyint1(object.disponible),
-    oferta: parseBooleanTinyint1(object.oferta)
-  };
-  return newComida_Tamanio;
+  return newPedido;
 };
 
 export const crearNuevaComida = (object: any): Comida => {
   const newComida: Comida = {
     id_tipoplato: parseNumber(object.id_tipoplato),
     nombre_comida: parseString(object.nombre_comida),
-    ingredientes: parseString(object.ingredientes)
+    ingredientes: parseString(object.ingredientes),
+    precio_unidad: parseNumber(object.precio_unidad),
+    disponible: parseBooleanTinyint1(object.disponible)
   };
   return newComida;
 };
@@ -203,13 +195,6 @@ export const crearNuevoTelefono = (object: any): Telefono => {
     es_principal: parseBooleanTinyint1(object.es_principal),
   };
   return newTelefono;
-};
-
-export const crearNuevoTamanio = (object: any): Tamanio => {
-  const newTamanio: Tamanio = {
-    tamanio: parseString(object.tamanio)
-  };
-  return newTamanio;
 };
 
 export const crearNuevoHorario = (object: any): Horario => {
