@@ -43,21 +43,6 @@ routerPedidosDetalles.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
-// Obtener un PedidosDetalles por id de Pedido
-routerPedidosDetalles.get('/:id', async (req: Request, res: Response) => {
-  try {
-    const id: number = parseInt(req.params.id, 10);
-    const arrPedidosDetalles: Pedido_Detalle[] = await obtenerRegistroPorColumna<Pedido_Detalle>(id, 'id_pedido', NameTables.Pedido_Detalle);
-    if (arrPedidosDetalles.length === 0) {
-      return res.status(404).json({ error: 'No hay Pedidos Detalles con ese ID de pedido!' });
-    }
-    return res.status(200).json(arrPedidosDetalles);
-  } catch (err) {
-    const error: Error = err as Error;
-    return res.status(500).json({ error: error.message });
-  }
-});
-
 //  Obtener todos los PedidosDetalles 
 routerPedidosDetalles.get('/', async (_req: Request, res: Response) => {
   try {

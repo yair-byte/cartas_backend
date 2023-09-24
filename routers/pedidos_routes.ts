@@ -44,21 +44,6 @@ routerPedidos.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
-// Obtener un pedido por id de LocalCarta
-routerPedidos.get('/:id', async (req: Request, res: Response) => {
-  try {
-    const id: number = parseInt(req.params.id, 10);
-    const arrPedidos: Pedido[] = await obtenerRegistroPorColumna<Pedido>(id, 'id_localcarta', NameTables.Pedido);
-    if (arrPedidos.length === 0) {
-      return res.status(404).json({ error: 'No hay Pedidos con ese ID de LocalCarta!' });
-    }
-    return res.status(200).json(arrPedidos);
-  } catch (err) {
-    const error: Error = err as Error;
-    return res.status(500).json({ error: error.message });
-  }
-});
-
 //  Obtener todos los Pedidos 
 routerPedidos.get('/', async (_req: Request, res: Response) => {
   try {
