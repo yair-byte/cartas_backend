@@ -126,7 +126,8 @@ routerMenus.get('/:id', async (req: Request, res: Response) => {
                   nombre_comida: comida.nombre_comida,
                   ingredientes: comida.ingredientes,
                   precio_unidad: comida.precio_unidad,
-                  disponible: comida.disponible
+                  disponible: comida.disponible,
+                  url_imagen: comida.url_imagen
                 };
               });
             return {

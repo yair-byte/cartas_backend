@@ -1,6 +1,6 @@
 import express from 'express';
 import { Request, Response } from 'express';
-import { borrarRegistroPorID, guardarNuevoRegistro, obtenerRegistroPorColumna, obtenerRegistroPorID, obtenerTablaCompleta, verificarPermisos } from '../services/services';
+import { borrarRegistroPorID, guardarNuevoRegistro, obtenerRegistroPorID, obtenerTablaCompleta, verificarPermisos } from '../services/services';
 import { NameTables, Permission } from '../enums';
 import { Pedido_Detalle } from '../types';
 import { crearNuevoPedidoDetalle } from '../utils';

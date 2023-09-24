@@ -172,7 +172,7 @@ EJEMPLO
     "descripcion_carta": "La mejor carta2",
     "nombre_local": "Restaurante2",
     "descripcion_local": "Pizzeria con horno de leña",
-    "cdi": "YYYYYYYYYYYYY",
+    "url_logo": "https://thumbs.dreamstime.com/b/etichetta-del-menu-di-progettazione-su-bianco-93713737.jpg",
     "calle": "Calle B",
     "altura": 456,
     "piso": null
@@ -225,26 +225,58 @@ EJEMPLO
   ],
   "secciones": [
     {
-      "id_seccion": 3,
-      "nombre_seccion": "Postres",
+      "id_seccion": 2,
+      "nombre_seccion": "Platos Principales",
       "tiposPlato": [
         {
-          "id_tipoplato": 5,
-          "nombre_tipoplato": "Tortas",
+          "id_tipoplato": 3,
+          "nombre_tipoplato": "Pizza",
           "comidas": [
             {
-              "id_comida": 5,
-              "nombre_comida": "Torta Tiramisú",
-              "ingredientes": "Tiramisu, Bizcochos de café, crema mascarpone, cacao",
-              "precio_unidad": 50,
-              "disponible": 1
+              "id_comida": 2,
+              "nombre_comida": "Pizza Margarita",
+              "ingredientes": "Masa, tomate, mozzarella, albahaca",
+              "precio_unidad": 20,
+              "disponible": 1,
+              "url_imagen": "https://3.bp.blogspot.com/-9RcbzZNTfsk/WTblUfIdHUI/AAAAAAAAqvQ/syokhq9y96o3n5lamMNRAj4jyh6rXWIMQCLcB/s1600/pizza_margarita.jpg"
             },
             {
-              "id_comida": 6,
-              "nombre_comida": "Torta Oreo",
-              "ingredientes": "Oreo, Salmón, atún, aguacate, arroz, alga",
-              "precio_unidad": 60,
-              "disponible": 1
+              "id_comida": 4,
+              "nombre_comida": "Pizza Anana",
+              "ingredientes": "Pasta, salsa alfredo, pollo, parmesano",
+              "precio_unidad": 40,
+              "disponible": 1,
+              "url_imagen": "https://img-global.cpcdn.com/recipes/94d8847c3cb4fd49/1200x630cq70/photo.jpg"
+            }
+          ]
+        },
+        {
+          "id_tipoplato": 4,
+          "nombre_tipoplato": "Empanadas",
+          "comidas": [
+            {
+              "id_comida": 7,
+              "nombre_comida": "Empanada Carne",
+              "ingredientes": "Carne, cebolla, especias",
+              "precio_unidad": 70,
+              "disponible": 1,
+              "url_imagen": "https://bigoven-res.cloudinary.com/image/upload/t_recipe-1280/empanadas-de-carne-3d4d3e.jpg"
+            },
+            {
+              "id_comida": 8,
+              "nombre_comida": "Empanada Pollo",
+              "ingredientes": "Pollo, cebolla, pimientos",
+              "precio_unidad": 80,
+              "disponible": 1,
+              "url_imagen": "https://www.recetasnatura.com.ar/sites/default/files/empanadas_de_pollo.jpg"
+            },
+            {
+              "id_comida": 9,
+              "nombre_comida": "Empanada Jamon y Queso",
+              "ingredientes": "Jamón, queso, masa",
+              "precio_unidad": 90,
+              "disponible": 1,
+              "url_imagen": "https://www.juanmartinezsl.com/ckeditor_assets/pictures/65/content_empanadillas_de_jamon_y_queso.jpg"
             }
           ]
         }
@@ -263,7 +295,8 @@ EJEMPLO
               "nombre_comida": "Ensaladita",
               "ingredientes": "Lechuga, tomate, queso, aderezo",
               "precio_unidad": 10,
-              "disponible": 1
+              "disponible": 1,
+              "url_imagen": "https://www.losreplicantes.com/images/articulos/18000/18093/s2.jpg"
             }
           ]
         },
@@ -276,60 +309,36 @@ EJEMPLO
               "nombre_comida": "Hamburguesita",
               "ingredientes": "Carne de res, pan, lechuga, tomate, queso",
               "precio_unidad": 30,
-              "disponible": 1
+              "disponible": 1,
+              "url_imagen": "https://gastronomiaycia.republica.com/wp-content/uploads/2020/11/mcplant_1.jpg"
             }
           ]
         }
       ]
     },
     {
-      "id_seccion": 2,
-      "nombre_seccion": "Platos Principales",
+      "id_seccion": 3,
+      "nombre_seccion": "Postres",
       "tiposPlato": [
         {
-          "id_tipoplato": 3,
-          "nombre_tipoplato": "Pizza",
+          "id_tipoplato": 5,
+          "nombre_tipoplato": "Tortas",
           "comidas": [
             {
-              "id_comida": 2,
-              "nombre_comida": "Pizza Margarita",
-              "ingredientes": "Masa, tomate, mozzarella, albahaca",
-              "precio_unidad": 20,
-              "disponible": 1
+              "id_comida": 5,
+              "nombre_comida": "Torta Tiramisú",
+              "ingredientes": "Tiramisu, Bizcochos de café, crema mascarpone, cacao",
+              "precio_unidad": 50,
+              "disponible": 1,
+              "url_imagen": "https://3.bp.blogspot.com/-pjrpmgL7mZs/WAjiv-80FBI/AAAAAAAAV80/GcWJWmUVl-ky6MQ0xRJHsdXEOcBanhy3wCLcB/s1600/DSC08318-.jpg"
             },
             {
-              "id_comida": 4,
-              "nombre_comida": "Pizza Anana",
-              "ingredientes": "Pasta, salsa alfredo, pollo, parmesano",
-              "precio_unidad": 40,
-              "disponible": 1
-            }
-          ]
-        },
-        {
-          "id_tipoplato": 4,
-          "nombre_tipoplato": "Empanadas",
-          "comidas": [
-            {
-              "id_comida": 7,
-              "nombre_comida": "Empanada Carne",
-              "ingredientes": "Carne, cebolla, especias",
-              "precio_unidad": 70,
-              "disponible": 1
-            },
-            {
-              "id_comida": 8,
-              "nombre_comida": "Empanada Pollo",
-              "ingredientes": "Pollo, cebolla, pimientos",
-              "precio_unidad": 80,
-              "disponible": 1
-            },
-            {
-              "id_comida": 9,
-              "nombre_comida": "Empanada Jamon y Queso",
-              "ingredientes": "Jamón, queso, masa",
-              "precio_unidad": 90,
-              "disponible": 1
+              "id_comida": 6,
+              "nombre_comida": "Torta Oreo",
+              "ingredientes": "Oreo, Salmón, atún, aguacate, arroz, alga",
+              "precio_unidad": 60,
+              "disponible": 1,
+              "url_imagen": "https://i.pinimg.com/736x/90/b6/f0/90b6f0974bc5996a5532946bac3cbe57.jpg"
             }
           ]
         }
