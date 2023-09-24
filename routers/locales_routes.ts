@@ -19,7 +19,7 @@ routerLocales.post('/nuevo', verificarPermisos(Permission.Usuario), async (req: 
       descripcion_local: req.body.descripcion_local,
       nombre_carta: req.body.nombre_carta,
       descripcion_carta: req.body.descripcion_carta,
-      cdi: req.body.cdi,
+      url_logo: req.body.url_logo,
       calle: req.body.calle,
       altura: req.body.altura,
       piso: req.body.piso
@@ -83,7 +83,7 @@ routerLocales.put('/:id', verificarPermisos(Permission.Usuario), async (req: Req
       descripcion_local: req.body.descripcion_local,
       nombre_carta: req.body.nombre_carta,
       descripcion_carta: req.body.descripcion_carta,
-      cdi: req.body.cdi,
+      url_logo: req.body.url_logo,
       calle: req.body.calle,
       altura: req.body.altura,
       piso: req.body.piso

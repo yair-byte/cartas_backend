@@ -37,7 +37,7 @@ export interface LocalCarta {
   descripcion_local: string;
   nombre_carta: string;
   descripcion_carta: string;
-  cdi: string;
+  url_logo: string | null;
   calle: string;
   altura: number;
   piso: string | null;
@@ -63,6 +63,7 @@ export interface Comida {
   ingredientes: string;
   precio_unidad: number;
   disponible: boolean;
+  url_imagen: string | null;
 };
 
 export interface Pedido {
@@ -155,6 +156,7 @@ export interface CartaCompleta {
         ingredientes: string;
         precio_unidad: number;
         disponible: boolean;
+        url_imagen: string | null
       }[];
     }[];
   }[];

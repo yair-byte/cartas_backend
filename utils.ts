@@ -122,7 +122,8 @@ export const crearNuevaComida = (object: any): Comida => {
     nombre_comida: parseString(object.nombre_comida),
     ingredientes: parseString(object.ingredientes),
     precio_unidad: parseNumber(object.precio_unidad),
-    disponible: parseBooleanTinyint1(object.disponible)
+    disponible: parseBooleanTinyint1(object.disponible),
+    url_imagen: parseString_o_NULL(object.url_imagen)
   };
   return newComida;
 };
@@ -237,7 +238,7 @@ export const crearNuevolocalCarta = (object: any): LocalCarta => {
     descripcion_local: parseString(object.descripcion_local),
     nombre_carta: parseString(object.nombre_carta),
     descripcion_carta: parseString(object.descripcion_carta),
-    cdi: parseString(object.cdi),
+    url_logo: parseString_o_NULL(object.url_logo),
     calle: parseString(object.calle),
     altura: parseNumber(object.altura),
     piso: parseString_o_NULL(object.piso)
